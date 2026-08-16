@@ -5,7 +5,7 @@ export default function handler(req, res) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Legal AI Guidance Monitor — Aloha AI Consulting</title>
-<meta name="description" content="Automated weekly tracker of state bar AI ethics opinions, ABA guidance, and judicial AI disclosure orders. Built by RN Collins, JD Candidate.">
+<meta name="description" content="A source-tiered register of verified legal AI ethics authorities and official-source candidates. Built by RN Collins, JD Candidate.">
 <meta property="og:title" content="Legal AI Guidance Monitor — Aloha AI Consulting">
 <meta property="og:description" content="Automated weekly tracker of state bar AI ethics opinions, ABA guidance, and judicial AI disclosure orders.">
 <meta property="og:type" content="website">
@@ -75,19 +75,19 @@ export default function handler(req, res) {
     <div>
       <div class="brand"><span class="brand-dot" aria-hidden="true"></span>Aloha AI Consulting</div>
       <h1 class="doc-title">Legal AI Guidance Monitor</h1>
-      <p class="doc-sub">Automated weekly tracking of state bar ethics opinions, ABA guidance, and judicial AI disclosure orders</p>
+      <p class="doc-sub">Verified primary authorities, official-source candidates, and review status — without treating search results as law</p>
     </div>
     <div class="status-pill" role="status" aria-live="polite" aria-label="Last updated"><span class="pulse" aria-hidden="true"></span><span id="last-updated">Loading...</span></div>
   </header>
   <main id="main-content">
   <div class="stats-row" role="region" aria-label="Summary statistics">
     <div class="stat-card"><div class="stat-label">Total Items</div><div class="stat-value" id="stat-total" aria-live="polite">—</div><div class="stat-sub">last 180 days</div></div>
-    <div class="stat-card"><div class="stat-label">Bar Guidance</div><div class="stat-value" id="stat-bar" aria-live="polite">—</div><div class="stat-sub">state bars</div></div>
-    <div class="stat-card"><div class="stat-label">Judicial Orders</div><div class="stat-value" id="stat-judicial" aria-live="polite">—</div><div class="stat-sub">AI disclosure</div></div>
-    <div class="stat-card"><div class="stat-label">Sources</div><div class="stat-value" id="stat-sources">5</div><div class="stat-sub">bar · ABA · courts · rules · policy</div></div>
+    <div class="stat-card"><div class="stat-label">Verified</div><div class="stat-value" id="stat-verified" aria-live="polite">—</div><div class="stat-sub">opened · characterized</div></div>
+    <div class="stat-card"><div class="stat-label">Candidates</div><div class="stat-value" id="stat-candidate" aria-live="polite">—</div><div class="stat-sub">official domain · review needed</div></div>
+    <div class="stat-card"><div class="stat-label">Verified On</div><div class="stat-value" id="stat-date" style="font-size:18px">—</div><div class="stat-sub">manual source check</div></div>
   </div>
-  <nav class="cat-row" id="cat-row" aria-label="Filter by category"></nav>
-  <div class="disclaimer" role="note">Automated aggregation of publicly available legal sources. Not legal advice. Source accuracy depends on third-party publication and search indexing.</div>
+  <label class="section-label" for="authority-search">Search authorities</label><input id="authority-search" type="search" placeholder="Jurisdiction, duty, opinion, or authority type" style="width:100%;padding:12px 14px;border:1px solid #D0CEC8;border-radius:8px;background:#fff;margin:8px 0 18px;font:inherit"><nav class="cat-row" id="cat-row" aria-label="Filter by category"></nav>
+  <div class="disclaimer" role="note">Authority boundary: “Verified” means the official source was opened and characterized on the stated date. Candidates are limited to official domains but still require document-level review. Commentary and commercial trackers are excluded. Not legal advice.</div>
   <div class="section-label" id="results-label">Recent Guidance</div>
   <div class="doc-list" id="doc-list" role="list" aria-labelledby="results-label"><div class="no-results" style="padding:60px">Loading legal AI guidance data...</div></div>
   </main>
@@ -109,7 +109,7 @@ export default function handler(req, res) {
   </footer>
 </div>
 <script>
-let allDocs=[],activeFilter='All';
+let allDocs=[],activeFilter='All',searchTerm='';
 function badgeClass(cat){
   if(cat==='State Bar Guidance') return 'badge-State';
   if(cat==='ABA Guidance') return 'badge-ABA';
@@ -140,7 +140,7 @@ function renderDocs(docs){
     '<div>'+
     '<div class="doc-title-text">'+escHtml(d.title)+'</div>'+
     '<div class="doc-meta">'+escHtml(d.category)+' &nbsp;&middot;&nbsp; '+formatDate(d.date)+'</div>'+
-    (d.abstract?'<div class="doc-abstract">'+escHtml(d.abstract)+(d.abstract.length>=300?'&hellip;':'')+'</div>':'')+
+    '<div class="doc-meta">'+escHtml(d.jurisdiction||'Jurisdiction not captured')+' &nbsp;·&nbsp; '+escHtml(d.authority_type||'Authority type pending')+'</div>'+(d.abstract?'<div class="doc-abstract">'+escHtml(d.abstract)+(d.abstract.length>=300?'&hellip;':'')+'</div>':'')+'<div class="doc-meta" style="margin-top:8px;color:'+(d.verified_on?'#1B7A68':'#B8842A')+'">'+escHtml(d.status||d.source_tier)+(d.verified_on?' · verified '+escHtml(d.verified_on):'')+'</div>'+
     '</div></a>'
   ).join('');
 }
@@ -151,7 +151,7 @@ function setFilter(cat){
     p.classList.toggle('inactive',p.dataset.cat!==cat);
     p.setAttribute('aria-pressed',p.dataset.cat===cat?'true':'false');
   });
-  renderDocs(cat==='All'?allDocs:allDocs.filter(d=>d.category===cat));
+  const base=cat==='All'?allDocs:allDocs.filter(d=>d.category===cat);renderDocs(base.filter(d=>[d.title,d.abstract,d.jurisdiction,d.authority_type,d.source].join(' ').toLowerCase().includes(searchTerm)));
 }
 async function load(){
   try{
@@ -160,8 +160,9 @@ async function load(){
     if(!data.ok) throw new Error(data.error);
     allDocs=data.documents||[];
     document.getElementById('stat-total').textContent=data.total;
-    document.getElementById('stat-bar').textContent=data.bar_count;
-    document.getElementById('stat-judicial').textContent=data.judicial_count;
+    document.getElementById('stat-verified').textContent=data.verified_count;
+    document.getElementById('stat-candidate').textContent=data.candidate_count;
+    document.getElementById('stat-date').textContent=data.verified_on;
     if(data.last_sweep){
       const d=new Date(data.last_sweep);
       document.getElementById('last-updated').textContent='Updated '+d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
@@ -179,6 +180,7 @@ async function load(){
     document.getElementById('last-updated').textContent='Update unavailable';
   }
 }
+document.getElementById('authority-search').addEventListener('input',e=>{searchTerm=e.target.value.trim().toLowerCase();setFilter(activeFilter)});
 load();
 </script>
 </body>
