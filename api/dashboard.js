@@ -7,12 +7,12 @@ export default function handler(req, res) {
 <title>Legal AI Guidance Monitor — Aloha AI Consulting</title>
 <meta name="description" content="A source-tiered register of verified legal AI ethics authorities and official-source candidates. Built by RN Collins, JD Candidate.">
 <meta property="og:title" content="Legal AI Guidance Monitor — Aloha AI Consulting">
-<meta property="og:description" content="Automated weekly tracker of state bar AI ethics opinions, ABA guidance, and judicial AI disclosure orders.">
+<meta property="og:description" content="A source-tiered register of verified legal AI ethics authorities and official-source candidates.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://aloha-legal-ai-monitor.vercel.app">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Legal AI Guidance Monitor — Aloha AI Consulting">
-<meta name="twitter:description" content="Automated weekly tracker of state bar AI ethics opinions, ABA guidance, and judicial AI disclosure orders.">
+<meta name="twitter:description" content="A source-tiered register of verified legal AI ethics authorities and official-source candidates.">
 <link rel="canonical" href="https://aloha-legal-ai-monitor.vercel.app">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
