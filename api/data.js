@@ -17,8 +17,8 @@ function official(url) { try { const host=new URL(url).hostname.toLowerCase(); r
 
 export default async function handler(req,res) {
  try {
-  const [storedRaw,lastSuccess,lastAttempt,lastError,healthRaw] = await Promise.all([
-    redis.get('legal_ai:documents'), redis.get('legal_ai:last_success'), redis.get('legal_ai:last_attempt'),
+  const [storedRaw,lastSuccess,legacyLastSweep,lastAttempt,lastError,healthRaw] = await Promise.all([
+    redis.get('legal_ai:documents'), redis.get('legal_ai:last_success'), redis.get('legal_ai:last_sweep'), redis.get('legal_ai:last_attempt'),
     redis.get('legal_ai:last_error'), redis.get('legal_ai:source_health')
   ]);
   const stored=parse(storedRaw);
@@ -28,7 +28,7 @@ export default async function handler(req,res) {
   const categories={}; for(const document of documents) categories[document.category]=(categories[document.category]||0)+1;
 
   const parsedHealth=parse(healthRaw,{});
-  const successTime=lastSuccess || parsedHealth.last_success || null;
+  const successTime=lastSuccess || parsedHealth.last_success || legacyLastSweep || null;
   const ageMs=successTime ? Date.now()-new Date(successTime).getTime() : null;
   const stale=!successTime || !Number.isFinite(ageMs) || ageMs>STALE_AFTER_MS;
   const sourceHealth={
