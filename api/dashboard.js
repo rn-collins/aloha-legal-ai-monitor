@@ -32,6 +32,9 @@ export default function handler(req, res) {
   .status-pill{display:flex;align-items:center;gap:6px;background:white;border:.5px solid #D0CEC8;border-radius:20px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:10px;color:#7A7875;white-space:nowrap}
   .pulse{width:7px;height:7px;border-radius:50%;background:#1B7A68;animation:pulse 2s ease-in-out infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  .health-banner{display:flex;justify-content:space-between;gap:18px;align-items:center;background:white;border:1px solid #D0CEC8;border-left:5px solid #B8842A;border-radius:8px;padding:14px 16px;margin-bottom:18px}
+  .health-banner.healthy{border-left-color:#1B7A68}.health-banner.failed,.health-banner.stale{border-left-color:#C24A2E}
+  .health-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:700}.health-detail{font-size:10px;color:#7A7875;margin-top:4px;line-height:1.5}.health-state{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;white-space:nowrap}
   .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:32px}
   .stat-card{background:white;border:.5px solid #D0CEC8;border-radius:8px;padding:16px 18px}
   .stat-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#B8B4AE;margin-bottom:6px}
@@ -80,6 +83,10 @@ export default function handler(req, res) {
     <div class="status-pill" role="status" aria-live="polite" aria-label="Last updated"><span class="pulse" aria-hidden="true"></span><span id="last-updated">Loading...</span></div>
   </header>
   <main id="main-content">
+  <section class="health-banner" id="source-health" role="status" aria-live="polite">
+    <div><div class="health-title">Source health is loading</div><div class="health-detail">Checking refresh cadence and the most recent successful source sweep.</div></div>
+    <div class="health-state" id="health-state">Checking</div>
+  </section>
   <div class="stats-row" role="region" aria-label="Summary statistics">
     <div class="stat-card"><div class="stat-label">Total Items</div><div class="stat-value" id="stat-total" aria-live="polite">—</div><div class="stat-sub">last 180 days</div></div>
     <div class="stat-card"><div class="stat-label">Verified</div><div class="stat-value" id="stat-verified" aria-live="polite">—</div><div class="stat-sub">opened · characterized</div></div>
@@ -163,12 +170,19 @@ async function load(){
     document.getElementById('stat-verified').textContent=data.verified_count;
     document.getElementById('stat-candidate').textContent=data.candidate_count;
     document.getElementById('stat-date').textContent=data.verified_on;
-    if(data.last_sweep){
-      const d=new Date(data.last_sweep);
-      document.getElementById('last-updated').textContent='Updated '+d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
-    } else {
-      document.getElementById('last-updated').textContent='Awaiting first sweep';
-    }
+    const health=data.source_health||{};
+    const healthBox=document.getElementById('source-health');
+    const healthState=document.getElementById('health-state');
+    const state=health.stale?'stale':(health.status||'unknown');
+    healthBox.classList.add(state);
+    healthState.textContent=state;
+    const lastSuccess=health.last_success?new Date(health.last_success):null;
+    const checked=health.checked_at?new Date(health.checked_at):null;
+    const freshness=lastSuccess?'Last successful refresh '+lastSuccess.toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'})+'.':'No successful automated refresh has been recorded.';
+    const failure=health.error?' Latest attempt failed; previously verified data is still shown.':'';
+    healthBox.querySelector('.health-title').textContent=state==='healthy'?'Sources healthy':state==='degraded'?'Some sources failed':state==='stale'?'Data may be stale':state==='failed'?'Source refresh failed':'Source health unavailable';
+    healthBox.querySelector('.health-detail').textContent=freshness+' '+(health.cadence||'Weekly cadence.')+failure+(checked?' Last checked '+checked.toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'})+'.':'');
+    document.getElementById('last-updated').textContent=lastSuccess?'Updated '+lastSuccess.toLocaleDateString('en-US',{month:'short',day:'numeric'}):'No successful sweep';
     const cats=['All',...Object.keys(data.categories||{}).sort()];
     document.getElementById('cat-row').innerHTML=cats.map(c=>{
       const count=c==='All'?allDocs.length:(data.categories?.[c]||0);
@@ -178,6 +192,11 @@ async function load(){
   } catch(err){
     document.getElementById('doc-list').innerHTML='<div class="no-results">Unable to load guidance data. Please try again later.</div>';
     document.getElementById('last-updated').textContent='Update unavailable';
+    const healthBox=document.getElementById('source-health');
+    healthBox.classList.add('failed');
+    healthBox.querySelector('.health-title').textContent='Data endpoint unavailable';
+    healthBox.querySelector('.health-detail').textContent='The monitor could not verify freshness. Do not rely on cached records until service is restored.';
+    document.getElementById('health-state').textContent='Failed';
   }
 }
 document.getElementById('authority-search').addEventListener('input',e=>{searchTerm=e.target.value.trim().toLowerCase();setFilter(activeFilter)});
