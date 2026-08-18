@@ -183,8 +183,9 @@ async function load(){
     const checked=health.checked_at?new Date(health.checked_at):null;
     const freshness=lastSuccess?'Last successful refresh '+lastSuccess.toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'})+'.':'No successful automated refresh has been recorded.';
     const failure=health.error?' Latest attempt failed; previously verified data is still shown.':'';
-    healthBox.querySelector('.health-title').textContent=state==='healthy'?'Sources healthy':state==='degraded'?'Some sources failed':state==='stale'?'Data may be stale':state==='failed'?'Source refresh failed':'Source health unavailable';
-    healthBox.querySelector('.health-detail').textContent=freshness+' '+(health.cadence||'Weekly cadence.')+failure+(checked?' Last checked '+checked.toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'})+'.':'');
+    healthBox.querySelector('.health-title').textContent=state==='healthy'?'Sources healthy':state==='degraded'?'Some sources failed':state==='stale'?'Discovery sweep overdue':state==='failed'?'Source refresh failed':'Source health unavailable';
+    const manual=state==='stale'?' The verified authority register was manually checked on '+data.verified_on+'.':'';
+    healthBox.querySelector('.health-detail').textContent=freshness+' '+(health.cadence||'Weekly cadence.')+manual+failure+(checked?' Last checked '+checked.toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'})+'.':'');
     document.getElementById('last-updated').textContent=lastSuccess?'Updated '+lastSuccess.toLocaleDateString('en-US',{month:'short',day:'numeric'}):'No successful sweep';
     const cats=['All',...Object.keys(data.categories||{}).sort()];
     document.getElementById('cat-row').innerHTML=cats.map(c=>{
