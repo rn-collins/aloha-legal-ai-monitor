@@ -14,6 +14,7 @@ export default function handler(req, res) {
 <meta name="twitter:title" content="Legal AI Guidance Monitor — Aloha AI Consulting">
 <meta name="twitter:description" content="A source-tiered register of verified legal AI ethics authorities and official-source candidates.">
 <link rel="canonical" href="https://aloha-legal-ai-monitor.vercel.app">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Syne:wght@500;700&family=Manrope:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -68,6 +69,8 @@ export default function handler(req, res) {
   .footer-contact a{color:#1B7A68;text-decoration:none}
   .footer-contact a:hover{text-decoration:underline}
   .footer-contact a:focus-visible{outline:2px solid #1B7A68;outline-offset:2px}
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+  @media print{body{background:#fff}.page{max-width:none;padding:20px}.pulse{animation:none}.cat-row,#authority-search,label[for="authority-search"]{display:none}.doc-card{break-inside:avoid;box-shadow:none}.footer{break-inside:avoid}a{color:#000}}
   @media(max-width:640px){.page{padding:28px 16px}.stats-row{grid-template-columns:1fr 1fr}.header{flex-direction:column;gap:16px}.footer{flex-direction:column;gap:16px}.footer-contact{text-align:left}}
 </style>
 </head>
@@ -88,14 +91,14 @@ export default function handler(req, res) {
     <div class="health-state" id="health-state">Checking</div>
   </section>
   <div class="stats-row" role="region" aria-label="Summary statistics">
-    <div class="stat-card"><div class="stat-label">Total Items</div><div class="stat-value" id="stat-total" aria-live="polite">—</div><div class="stat-sub">last 180 days</div></div>
+    <div class="stat-card"><div class="stat-label">Total Items</div><div class="stat-value" id="stat-total" aria-live="polite">—</div><div class="stat-sub">authority register</div></div>
     <div class="stat-card"><div class="stat-label">Verified</div><div class="stat-value" id="stat-verified" aria-live="polite">—</div><div class="stat-sub">opened · characterized</div></div>
     <div class="stat-card"><div class="stat-label">Candidates</div><div class="stat-value" id="stat-candidate" aria-live="polite">—</div><div class="stat-sub">official domain · review needed</div></div>
     <div class="stat-card"><div class="stat-label">Verified On</div><div class="stat-value" id="stat-date" style="font-size:18px">—</div><div class="stat-sub">manual source check</div></div>
   </div>
   <label class="section-label" for="authority-search">Search authorities</label><input id="authority-search" type="search" placeholder="Jurisdiction, duty, opinion, or authority type" style="width:100%;padding:12px 14px;border:1px solid #D0CEC8;border-radius:8px;background:#fff;margin:8px 0 18px;font:inherit"><nav class="cat-row" id="cat-row" aria-label="Filter by category"></nav>
   <div class="disclaimer" role="note">Authority boundary: “Verified” means the official source was opened and characterized on the stated date. Candidates are limited to official domains but still require document-level review. Commentary and commercial trackers are excluded. Not legal advice.</div>
-  <div class="section-label" id="results-label">Recent Guidance</div>
+  <div class="section-label" id="results-label">Verified authorities and candidates</div>
   <div class="doc-list" id="doc-list" role="list" aria-labelledby="results-label"><div class="no-results" style="padding:60px">Loading legal AI guidance data...</div></div>
   </main>
   <footer class="footer">
