@@ -39,7 +39,7 @@ export default async function handler(req,res) {
   const ageMs=successTime ? Date.now()-new Date(successTime).getTime() : null;
   const stale=!successTime || !Number.isFinite(ageMs) || ageMs>STALE_AFTER_MS;
   const sourceHealth={
-    status: parsedHealth.status || (lastError ? 'failed' : successTime ? 'healthy' : 'unknown'),
+    status: stale ? 'stale' : (parsedHealth.status || (lastError ? 'failed' : successTime ? 'healthy' : 'unknown')),
     checked_at: parsedHealth.checked_at || lastAttempt || null,
     last_success: successTime,
     age_hours: Number.isFinite(ageMs) ? Math.round(ageMs/360000)/10 : null,
@@ -60,7 +60,7 @@ export default async function handler(req,res) {
     verified_on:VERIFIED_ON,
     last_sweep:sourceHealth.last_success,
     source_health:sourceHealth,
-    data_freshness:stale?'stale':'current',
+    data_freshness:stale?'verified-register-current-discovery-overdue':'current',
     total:documents.length,
     verified_count:PRIMARY.length,
     candidate_count:documents.length-PRIMARY.length,
