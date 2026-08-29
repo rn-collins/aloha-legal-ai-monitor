@@ -5,15 +5,20 @@ export default function handler(req, res) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Legal AI Guidance Monitor — Aloha AI Consulting</title>
-<meta name="description" content="A source-tiered register of verified legal AI ethics authorities and official-source candidates. Built by RN Collins, JD Candidate.">
+<meta name="description" content="Bar, ABA and federal-court authorities on lawyers' use of AI — each one opened, characterised and dated by hand, with search results kept separate from law. Built by RN Collins, JD Candidate.">
 <meta property="og:title" content="Legal AI Guidance Monitor — Aloha AI Consulting">
-<meta property="og:description" content="A source-tiered register of verified legal AI ethics authorities and official-source candidates.">
+<meta property="og:description" content="Bar, ABA and federal-court authorities on lawyers' use of AI — each one opened, characterised and dated by hand.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://aloha-legal-ai-monitor.vercel.app">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Legal AI Guidance Monitor — Aloha AI Consulting">
-<meta name="twitter:description" content="A source-tiered register of verified legal AI ethics authorities and official-source candidates.">
+<meta name="twitter:description" content="Bar, ABA and federal-court authorities on lawyers' use of AI — each one opened, characterised and dated by hand.">
 <link rel="canonical" href="https://aloha-legal-ai-monitor.vercel.app">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:image" content="https://aloha-legal-ai-monitor.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Legal AI Guidance Monitor — Aloha AI Consulting">
+<meta name="twitter:image" content="https://aloha-legal-ai-monitor.vercel.app/og-image.png">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,24 +34,24 @@ export default function handler(req, res) {
   .brand{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#1B7A68;margin-bottom:10px;display:flex;align-items:center;gap:6px}
   .brand-dot{width:8px;height:8px;border-radius:50%;background:#1B7A68}
   .doc-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;line-height:1.2}
-  .doc-sub{font-size:11px;color:#7A7875;font-family:'DM Mono',monospace;margin-top:6px}
-  .status-pill{display:flex;align-items:center;gap:6px;background:white;border:.5px solid #D0CEC8;border-radius:20px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:10px;color:#7A7875;white-space:nowrap}
+  .doc-sub{font-size:11px;color:#605D59;font-family:'DM Mono',monospace;margin-top:6px}
+  .status-pill{display:flex;align-items:center;gap:6px;background:white;border:.5px solid #D0CEC8;border-radius:20px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:10px;color:#605D59;white-space:nowrap}
   .pulse{width:7px;height:7px;border-radius:50%;background:#1B7A68;animation:pulse 2s ease-in-out infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
   .health-banner{display:flex;justify-content:space-between;gap:18px;align-items:center;background:white;border:1px solid #D0CEC8;border-left:5px solid #B8842A;border-radius:8px;padding:14px 16px;margin-bottom:18px}
   .health-banner.healthy{border-left-color:#1B7A68}.health-banner.failed,.health-banner.stale{border-left-color:#C24A2E}
-  .health-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:700}.health-detail{font-size:10px;color:#7A7875;margin-top:4px;line-height:1.5}.health-state{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;white-space:nowrap}
+  .health-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:700}.health-detail{font-size:10px;color:#605D59;margin-top:4px;line-height:1.5}.health-state{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;white-space:nowrap}
   .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:32px}
   .stat-card{background:white;border:.5px solid #D0CEC8;border-radius:8px;padding:16px 18px}
-  .stat-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#B8B4AE;margin-bottom:6px}
+  .stat-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#6E6B66;margin-bottom:6px}
   .stat-value{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#1B7A68;line-height:1}
-  .stat-sub{font-size:10px;color:#9A9890;margin-top:4px}
+  .stat-sub{font-size:10px;color:#6E6B66;margin-top:4px}
   .cat-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
   .cat-pill{font-family:'DM Mono',monospace;font-size:10px;padding:4px 10px;border-radius:20px;border:.5px solid;cursor:pointer;transition:all .15s}
   .cat-pill.active{background:#1B7A68;color:white;border-color:#1B7A68}
-  .cat-pill.inactive{background:white;color:#7A7875;border-color:#D0CEC8}
+  .cat-pill.inactive{background:white;color:#605D59;border-color:#8F8B84}
   .cat-pill:focus-visible{outline:2px solid #1B7A68;outline-offset:2px}
-  .section-label{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#7A7875;margin-bottom:14px}
+  .section-label{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#605D59;margin-bottom:14px}
   .doc-list{display:flex;flex-direction:column;gap:10px;margin-bottom:40px}
   .doc-card{background:white;border:.5px solid #D0CEC8;border-radius:8px;padding:16px 20px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;transition:box-shadow .15s,border-color .15s;text-decoration:none;color:inherit}
   .doc-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.06);border-color:#1B7A68}
@@ -58,13 +63,13 @@ export default function handler(req, res) {
   .badge-Bar{background:#D4E8F0;color:#1E3651}
   .badge-Professional{background:#F0EDE8;color:#5A5855}
   .doc-title-text{font-size:13px;font-weight:600;color:#1C1B1F;line-height:1.4;margin-bottom:4px}
-  .doc-meta{font-family:'DM Mono',monospace;font-size:10px;color:#9A9890}
+  .doc-meta{font-family:'DM Mono',monospace;font-size:10px;color:#6E6B66}
   .doc-abstract{font-size:11px;color:#5A5855;line-height:1.55;margin-top:6px}
-  .no-results{text-align:center;padding:40px;color:#9A9890;font-size:13px}
-  .disclaimer{font-size:10px;color:#9A9890;font-family:'DM Mono',monospace;margin-bottom:28px;padding:10px 14px;border:.5px solid #D0CEC8;border-radius:6px;background:white;line-height:1.6}
+  .no-results{text-align:center;padding:40px;color:#635F5A;font-size:13px}
+  .disclaimer{font-size:10px;color:#5A5651;font-family:'DM Mono',monospace;margin-bottom:28px;padding:10px 14px;border:.5px solid #D0CEC8;border-radius:6px;background:white;line-height:1.6}
   .footer{border-top:.5px solid #D0CEC8;padding-top:24px;display:flex;justify-content:space-between;align-items:flex-end}
   .footer-name{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600}
-  .footer-creds{font-size:10px;color:#9A9890;margin-top:3px;font-family:'DM Mono',monospace;line-height:1.6}
+  .footer-creds{font-size:10px;color:#635F5A;margin-top:3px;font-family:'DM Mono',monospace;line-height:1.6}
   .footer-contact{text-align:right;font-size:10px;font-family:'DM Mono',monospace;line-height:1.9}
   .footer-contact a{color:#1B7A68;text-decoration:none}
   .footer-contact a:hover{text-decoration:underline}
@@ -98,7 +103,7 @@ export default function handler(req, res) {
   </div>
   <label class="section-label" for="authority-search">Search authorities</label><input id="authority-search" type="search" placeholder="Jurisdiction, duty, opinion, or authority type" style="width:100%;padding:12px 14px;border:1px solid #D0CEC8;border-radius:8px;background:#fff;margin:8px 0 18px;font:inherit"><nav class="cat-row" id="cat-row" aria-label="Filter by category"></nav>
   <div class="disclaimer" role="note">Authority boundary: “Verified” means the official source was opened and characterized on the stated date. Candidates are limited to official domains but still require document-level review. Commentary and commercial trackers are excluded. Not legal advice.</div>
-  <div class="section-label" id="results-label">Verified authorities and candidates</div>
+  <h2 class="section-label" id="results-label">Verified authorities and candidates</h2>
   <div class="doc-list" id="doc-list" role="list" aria-labelledby="results-label"><div class="no-results" style="padding:60px">Loading legal AI guidance data...</div></div>
   </main>
   <footer class="footer">
@@ -114,7 +119,7 @@ export default function handler(req, res) {
     <div class="footer-contact">
       <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=collins.ra@northeastern.edu&amp;su=Legal%20AI%20Workflow%20%E2%80%94%20Discovery%20Call%20Request" target="_blank" rel="noopener">collins.ra@northeastern.edu</a><br>
       <a href="tel:+18606814438">860-681-4438</a><br>
-      <a href="https://rncollins.com/aloha-ai-consulting" target="_blank" rel="noopener">rncollins.com/aloha-ai-consulting</a>
+      <a href="https://aloha-ai-consulting.vercel.app/" target="_blank" rel="noopener">aloha-ai-consulting.vercel.app</a>
     </div>
   </footer>
 </div>
@@ -145,13 +150,13 @@ function renderDocs(docs){
   const list=document.getElementById('doc-list');
   if(!docs.length){list.innerHTML='<div class="no-results">No items match this filter.</div>';return;}
   list.innerHTML=docs.map(d=>
-    '<a class="doc-card" href="'+escHtml(d.url)+'" target="_blank" rel="noopener noreferrer" role="listitem">'+
+    '<div role="listitem"><a class="doc-card" href="'+escHtml(d.url)+'" target="_blank" rel="noopener noreferrer">'+
     '<div class="badge '+badgeClass(d.category)+'" aria-hidden="true">'+shortSource(d.category)+'</div>'+
     '<div>'+
     '<div class="doc-title-text">'+escHtml(d.title)+'</div>'+
     '<div class="doc-meta">'+escHtml(d.category)+' &nbsp;&middot;&nbsp; '+formatDate(d.date)+'</div>'+
-    '<div class="doc-meta">'+escHtml(d.jurisdiction||'Jurisdiction not captured')+' &nbsp;·&nbsp; '+escHtml(d.authority_type||'Authority type pending')+'</div>'+(d.abstract?'<div class="doc-abstract">'+escHtml(d.abstract)+(d.abstract.length>=300?'&hellip;':'')+'</div>':'')+'<div class="doc-meta" style="margin-top:8px;color:'+(d.verified_on?'#1B7A68':'#B8842A')+'">'+escHtml(d.status||d.source_tier)+(d.verified_on?' · verified '+escHtml(d.verified_on):'')+'</div>'+
-    '</div></a>'
+    '<div class="doc-meta">'+escHtml(d.jurisdiction||'Jurisdiction not captured')+' &nbsp;·&nbsp; '+escHtml(d.authority_type||'Authority type pending')+'</div>'+(d.abstract?'<div class="doc-abstract">'+escHtml(d.abstract)+(d.abstract.length>=300?'&hellip;':'')+'</div>':'')+'<div class="doc-meta" style="margin-top:8px;color:'+(d.verified_on?'#1B7A68':'#7A5713')+'">'+escHtml(d.status||d.source_tier)+(d.verified_on?' · verified '+escHtml(d.verified_on):'')+'</div>'+
+    '</div></a></div>'
   ).join('');
 }
 function setFilter(cat){
