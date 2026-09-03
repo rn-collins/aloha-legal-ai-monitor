@@ -86,110 +86,288 @@ export default function handler(req, res) {
 <meta property="og:image:alt" content="Legal AI Guidance Monitor — Aloha AI Consulting">
 <meta name="twitter:image" content="https://aloha-legal-ai-monitor.vercel.app/og-image.png">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Syne:wght@500;700&family=Manrope:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Syne:wght@500;700&family=Manrope:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
 <style>
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  :root{
-    --paper:#F6F3EC; --ink:#1C1B1F; --ink-soft:#4A4741; --rule:#D0CEC8; --rule-soft:#E2DFD8;
-    --card:#FFFFFF; --teal:#136356; --teal-deep:#0C4238; --clay:#8A4A1E; --ochre:#7A5713; --brick:#A6371F;
-  }
-  body{font-family:'Manrope',system-ui,sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;line-height:1.6;-webkit-text-size-adjust:100%}
-  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-  .skip-link{position:absolute;left:-9999px}
-  .skip-link:focus{position:static;display:inline-block;padding:6px 10px;background:var(--teal);color:#fff;font-size:13px}
-  a{color:var(--teal-deep)}
-  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--clay);outline-offset:2px;border-radius:3px}
-  .page{max-width:920px;margin:0 auto;padding:52px max(20px,4vw) 64px}
-  .header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-bottom:32px;padding-bottom:26px;border-bottom:1px solid var(--rule)}
-  .brand{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-  .brand-dot{width:8px;height:8px;border-radius:50%;background:var(--teal)}
-  .doc-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(30px,6vw,40px);font-weight:600;line-height:1.1}
-  .doc-sub{font-size:13px;color:var(--ink-soft);margin-top:8px;max-width:52ch}
-  .status-pill{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:6px 14px;font-family:'DM Mono',ui-monospace,monospace;font-size:10px;color:var(--ink-soft);white-space:nowrap}
-  .pulse{width:7px;height:7px;border-radius:50%;background:var(--teal)}
-  @media(prefers-reduced-motion:no-preference){.pulse{animation:pulse 2s ease-in-out infinite}}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-  .standfirst{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;line-height:1.5;color:var(--ink);max-width:62ch;margin-bottom:22px}
-  .standfirst em{font-style:italic}
-  .health-banner{display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--rule);border-left:5px solid var(--ochre);border-radius:8px;padding:14px 16px;margin-bottom:18px}
-  .health-banner.healthy{border-left-color:var(--teal)}.health-banner.failed,.health-banner.stale{border-left-color:var(--brick)}
-  .health-title{font-family:'Syne',sans-serif;font-size:12px;font-weight:700}
-  .health-detail{font-size:12px;color:var(--ink-soft);margin-top:4px;line-height:1.55}
-  .health-state{font-family:'DM Mono',ui-monospace,monospace;font-size:10px;text-transform:uppercase;white-space:nowrap;color:var(--ink-soft)}
-  .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:34px}
-  .stat-card{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:14px 16px}
-  .stat-label{font-family:'DM Mono',ui-monospace,monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
-  .stat-value{font-family:'Cormorant Garamond',Georgia,serif;font-size:30px;font-weight:600;color:var(--teal-deep);line-height:1;font-variant-numeric:lining-nums tabular-nums;font-feature-settings:'lnum' 1,'tnum' 1}
-  .stat-sub{font-size:11px;color:var(--ink-soft);margin-top:4px}
-  h2.rubric{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin:44px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
-  h2.rubric:first-of-type{margin-top:0}
-  .prose p{max-width:66ch;margin-bottom:14px;font-size:15px}
-  .prose h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;font-weight:600;margin:22px 0 8px}
-  .note{background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--clay);border-radius:8px;padding:14px 16px;font-size:13px;color:var(--ink-soft);margin:18px 0}
-  .note strong{color:var(--ink)}
-  .controls{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:16px;margin-bottom:20px;display:grid;gap:14px}
-  .controls .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-  .controls label{display:grid;gap:5px;font-family:'DM Mono',ui-monospace,monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);min-width:0}
-  .controls input,.controls select{font:inherit;font-family:'Manrope',sans-serif;font-size:14px;color:var(--ink);padding:9px 11px;border:1px solid #9C978E;border-radius:6px;background:#fff;width:100%;min-width:0}
-  .controls .actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .controls button{font:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:6px;border:1px solid var(--teal);background:#fff;color:var(--teal-deep);cursor:pointer}
-  .controls button:hover{background:#EAF2EF}
-  .result-count{font-family:'DM Mono',ui-monospace,monospace;font-size:11px;color:var(--ink-soft)}
-  .matrix-wrap{position:relative;overflow-x:auto;border:1px solid var(--rule);border-radius:8px;background:var(--card)}
-  table.matrix{border-collapse:collapse;width:100%;min-width:720px;font-size:12px}
-  table.matrix th,table.matrix td{border-bottom:1px solid var(--rule-soft);padding:9px 10px;text-align:left;vertical-align:bottom}
-  table.matrix thead th{font-family:'DM Mono',ui-monospace,monospace;font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);font-weight:500;line-height:1.35}
-  table.matrix tbody th{font-weight:600;white-space:nowrap}
-  table.matrix td{text-align:center;font-size:15px}
-  table.matrix td.on{color:var(--teal-deep)}
-  table.matrix td.off{color:#6E6960}
-  .briefs{display:grid;gap:16px}
-  .brief{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:20px 22px;scroll-margin-top:16px}
-  .brief:target{border-color:var(--teal);box-shadow:0 0 0 3px rgba(19,99,86,.14)}
-  .brief--unread{border-left:5px solid var(--ochre)}
-  .brief-head{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:start}
-  .badge{font-family:'DM Mono',ui-monospace,monospace;font-size:9px;font-weight:600;letter-spacing:.06em;padding:5px 7px;border-radius:4px;background:#EDEAE2;color:var(--ink-soft);white-space:nowrap}
-  .badge--aba{background:#E4EEEB;color:var(--teal-deep)}
-  .badge--bar{background:#EFE9DC;color:var(--ochre)}
-  .badge--court{background:#E9E4F0;color:#4A3A73}
-  .badge--case{background:#F3E2DC;color:var(--brick)}
-  .brief-headings h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:23px;font-weight:600;line-height:1.22}
-  .brief-headings h3 a{text-decoration:none}
-  .brief-headings h3 a:hover{text-decoration:underline}
-  .cite{font-family:'DM Mono',ui-monospace,monospace;font-size:11px;color:var(--ink-soft);margin-top:6px;line-height:1.5}
-  .rail{font-size:12px;color:var(--ink-soft);margin-top:4px}
-  .permalink{font-family:'DM Mono',ui-monospace,monospace;font-size:15px;text-decoration:none;color:#6E6960;padding:2px 6px;border-radius:4px}
-  .permalink:hover{color:var(--teal-deep);background:#EAF2EF}
-  .lede{font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;line-height:1.5;margin:14px 0 4px;max-width:64ch}
-  .fields{display:grid;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule-soft)}
-  .field h4{font-family:'DM Mono',ui-monospace,monospace;font-size:9px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:4px}
-  .field p{font-size:14.5px;max-width:70ch}
-  .duties{margin-top:14px}
-  .duties h4{font-family:'DM Mono',ui-monospace,monospace;font-size:9px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
-  .duties ul{list-style:none;display:flex;flex-wrap:wrap;gap:6px}
-  .duties li{font-size:11.5px;padding:3px 9px;border-radius:999px;background:#EDEAE2;color:var(--ink-soft)}
-  .brief-foot{margin-top:16px;padding-top:12px;border-top:1px solid var(--rule-soft);font-size:12px;color:var(--ink-soft)}
-  .brief-foot p{margin-bottom:4px;max-width:74ch}
-  .doc-link{display:inline-block;margin-top:6px;font-size:12px;font-weight:600}
-  .candidates{display:grid;gap:10px}
-  .candidate{background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--ochre);border-radius:8px;padding:14px 16px}
-  .candidate h3{font-size:15px;font-weight:600;line-height:1.4}
-  .candidate .rail{margin-top:4px}
-  .empty{background:var(--card);border:1px dashed var(--rule);border-radius:8px;padding:22px;font-size:14px;color:var(--ink-soft)}
-  .footer{margin-top:52px;padding-top:22px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;gap:22px;flex-wrap:wrap;font-size:12px;color:var(--ink-soft)}
-  .footer-name{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--ink);margin-bottom:6px}
-  .footer-creds{line-height:1.7}
-  .footer-contact{line-height:1.9;text-align:right}
-  @media(max-width:640px){
-    .page{padding:32px 18px 48px}
-    .brief-head{grid-template-columns:auto 1fr}
-    .permalink{display:none}
-    .footer-contact{text-align:left}
-    table.matrix{min-width:640px}
-  }
+@font-face{font-family:'Manuale';font-style:italic;font-weight:400;font-display:swap;src:url('/fonts/manuale-italic-400-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Manuale';font-style:italic;font-weight:400;font-display:swap;src:url('/fonts/manuale-italic-400-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Manuale';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manuale-normal-400-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Manuale';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/manuale-normal-400-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Manuale';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/manuale-normal-500-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Manuale';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/manuale-normal-500-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Manuale';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manuale-normal-600-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Manuale';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/manuale-normal-600-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Manuale';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/manuale-normal-700-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Manuale';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/manuale-normal-700-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Golos Text';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/golostext-normal-400-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Golos Text';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/golostext-normal-400-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Golos Text';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/golostext-normal-500-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Golos Text';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/golostext-normal-500-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Golos Text';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/golostext-normal-600-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Golos Text';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/golostext-normal-600-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Golos Text';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/golostext-normal-700-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Golos Text';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/golostext-normal-700-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+/* Legal AI Guidance Monitor — a looseleaf citator, not a dashboard.
+
+   This build declared Cormorant Garamond, Syne, Manrope and DM Mono on
+   #F6F3EC, and so did aloha-ai-governance and set-for-life. One stylesheet,
+   three unrelated builds.
+
+   What this actually is: eight primary authorities on lawyers' use of AI, each
+   one opened and read, with its citation, what it holds, what it does not
+   establish, the duties it reaches, and the date a person verified it — plus a
+   duty matrix and a separately fenced list of leads nobody has read. That is a
+   citator: the looseleaf service a practitioner keeps in a binder and files
+   updates into. It should look like one, not like a SaaS console.
+
+   Manuale sets the reading text — it is a book serif, drawn for long passages.
+   Golos Text sets the apparatus: citations, dates, duty keys, controls, matrix
+   headers. Neither family is used anywhere else in this estate, and both are
+   self-hosted from /fonts, which the build's own font-src 'self' already
+   allows, so no CSP is touched.
+
+   COLOUR RULE: structure is achromatic. Every hue on this page carries
+   meaning and nothing else does — green for a healthy sweep, ochre for unread
+   or degraded, brick for failed, stale or review-due, and the four badge hues
+   for authority class. Teal previously did double duty as both the Aloha
+   accent and "healthy"/"duty addressed", so green could not mean green. There
+   is no decorative accent now; links and focus are ink. */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --paper: #FAF8F4;      /* warm book white — off the estate cream */
+  --paper-sunk: #F2EFE9; /* the tint behind apparatus blocks */
+  --ink: #14161A;
+  --ink-soft: #43464C;
+  --ink-key: #3A3D43;
+  --rule: #14161A;       /* structural rules are ink, not grey */
+  --rule-mid: #A8A49C;
+  --rule-soft: #DCD8D0;
+  /* Semantics — unchanged in meaning, and now the only hues on the page. */
+  --ok: #14614A;
+  --ochre: #6E4E10;
+  --brick: #98301A;
+}
+
+body {
+  font-family: 'Manuale', Georgia, serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.62;
+  -webkit-text-size-adjust: 100%;
+  font-synthesis-weight: none;
+}
+
+/* The apparatus — everything that is a key rather than prose. */
+.brand, .doc-sub, .status-pill, .health-state, .stat-label, .stat-sub,
+.rubric, .controls label, .controls input, .controls select, .controls button,
+.result-count, .badge, .cite, .rail, .permalink, .field h4, .duties h4,
+.duties li, table.matrix, .brief-foot, .footer, .doc-link, .empty {
+  font-family: 'Golos Text', system-ui, sans-serif;
+}
+.cite, .rail, .stat-value, .status-pill, .health-state, table.matrix {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: 'tnum' 1, 'lnum' 1;
+}
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.skip-link { position: absolute; left: -9999px; }
+.skip-link:focus { position: static; display: inline-block; padding: 7px 11px; background: var(--ink); color: var(--paper); font-size: 13px; font-family: 'Golos Text', sans-serif; font-weight: 600; }
+a { color: var(--ink); text-underline-offset: 2px; text-decoration-thickness: 1px; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible {
+  outline: 3px solid var(--ink); outline-offset: 2px; border-radius: 0;
+}
+
+.page { max-width: 960px; margin: 0 auto; padding: 46px max(20px,4vw) 64px; }
+
+/* --- binder head -------------------------------------------------------- */
+.header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 20px; flex-wrap: wrap; margin-bottom: 30px; padding-bottom: 16px;
+  border-bottom: 3px solid var(--rule);
+}
+.brand { font-size: 10px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--ink-key); margin-bottom: 12px; display: flex; align-items: center; gap: 7px; }
+.brand-dot { width: 7px; height: 7px; border-radius: 0; background: var(--ink); }
+.doc-title { font-family: 'Manuale', Georgia, serif; font-size: clamp(31px,6vw,44px); font-weight: 700; line-height: 1.06; letter-spacing: -.014em; }
+.doc-sub { font-size: 13px; color: var(--ink-soft); margin-top: 9px; max-width: 56ch; line-height: 1.6; }
+.status-pill {
+  display: flex; align-items: center; gap: 7px;
+  background: transparent; border: 0; border-top: 3px solid var(--rule);
+  border-radius: 0; padding: 7px 0 0; font-size: 10px; font-weight: 600;
+  letter-spacing: .07em; text-transform: uppercase; color: var(--ink-key); white-space: nowrap;
+}
+.pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); }
+@media (prefers-reduced-motion: no-preference) { .pulse { animation: pulse 2s ease-in-out infinite; } }
+@keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
+
+.standfirst {
+  font-family: 'Manuale', Georgia, serif; font-size: 19px; line-height: 1.58;
+  color: var(--ink); max-width: 64ch; margin-bottom: 24px;
+}
+.standfirst em { font-style: italic; }
+
+/* --- sweep status: a stamped strip ------------------------------------- */
+.health-banner {
+  display: flex; justify-content: space-between; gap: 18px; align-items: center;
+  flex-wrap: wrap; background: var(--paper-sunk);
+  border: 0; border-left: 4px solid var(--ochre); border-radius: 0;
+  padding: 13px 16px; margin-bottom: 18px;
+}
+.health-banner.healthy { border-left-color: var(--ok); }
+.health-banner.failed, .health-banner.stale { border-left-color: var(--brick); }
+.health-title { font-family: 'Manuale', Georgia, serif; font-size: 17px; font-weight: 700; line-height: 1.28; }
+.health-detail { font-size: 13px; color: var(--ink-soft); margin-top: 4px; line-height: 1.55; max-width: 76ch; }
+.health-state { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; color: var(--ink-key); }
+
+/* --- summary figures: ruled columns ------------------------------------ */
+.stats-row {
+  display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap: 0;
+  margin-bottom: 30px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+}
+.stat-card { background: transparent; border: 0; border-left: 1px solid var(--rule-soft); border-radius: 0; padding: 13px 16px; }
+.stat-card:first-child { border-left: 0; padding-left: 0; }
+.stat-label { font-size: 9px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-key); margin-bottom: 6px; }
+.stat-value { font-family: 'Manuale', Georgia, serif; font-size: 32px; font-weight: 700; color: var(--ink); line-height: 1; }
+.stat-sub { font-size: 11px; color: var(--ink-soft); margin-top: 4px; line-height: 1.45; }
+
+/* --- tab dividers ------------------------------------------------------- */
+h2.rubric {
+  font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink); margin: 46px 0 14px; padding-bottom: 7px;
+  border-bottom: 3px solid var(--rule);
+}
+h2.rubric:first-of-type { margin-top: 0; }
+
+.prose p { max-width: 68ch; margin-bottom: 14px; font-size: 16px; line-height: 1.66; }
+.prose h3 { font-family: 'Manuale', Georgia, serif; font-size: 21px; font-weight: 700; margin: 24px 0 8px; line-height: 1.25; }
+.note {
+  background: var(--paper-sunk); border: 0; border-left: 4px solid var(--rule-mid);
+  border-radius: 0; padding: 13px 16px; font-size: 14px; color: var(--ink-soft); margin: 18px 0; max-width: 72ch;
+}
+.note strong { color: var(--ink); }
+
+/* --- controls: a filing slip, squared off ------------------------------ */
+.controls {
+  background: var(--paper-sunk); border: 0; border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule); border-radius: 0;
+  padding: 16px 0; margin-bottom: 22px; display: grid; gap: 14px;
+}
+.controls .row { display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: 12px; padding: 0 14px; }
+.controls label { display: grid; gap: 5px; font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-key); min-width: 0; }
+.controls input, .controls select {
+  font-family: 'Golos Text', sans-serif; font-size: 14px; color: var(--ink);
+  padding: 9px 11px; border: 1px solid var(--rule-mid); border-radius: 0;
+  background: #fff; width: 100%; min-width: 0;
+}
+.controls .actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 0 14px; }
+.controls button {
+  font-family: 'Golos Text', sans-serif; font-size: 12px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase; padding: 9px 15px;
+  border-radius: 0; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); cursor: pointer;
+}
+.controls button#reset, .controls button#copy-view { background: transparent; color: var(--ink); }
+.controls button:hover { background: var(--ink-soft); color: var(--paper); border-color: var(--ink-soft); }
+.result-count { font-size: 11px; font-weight: 600; color: var(--ink-key); letter-spacing: .04em; }
+
+/* --- duty matrix: a ruled table, not a bordered box -------------------- */
+.matrix-wrap { position: relative; overflow-x: auto; border: 0; border-top: 3px solid var(--rule); border-radius: 0; background: transparent; }
+table.matrix { border-collapse: collapse; width: 100%; min-width: 720px; font-size: 12px; }
+table.matrix th, table.matrix td { border-bottom: 1px solid var(--rule-soft); padding: 9px 10px; text-align: left; vertical-align: bottom; }
+table.matrix thead th { font-size: 9px; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-key); font-weight: 700; line-height: 1.35; border-bottom: 1px solid var(--rule); }
+table.matrix tbody th { font-weight: 600; white-space: nowrap; font-size: 12.5px; }
+table.matrix td { text-align: center; font-size: 15px; }
+table.matrix td.on { color: var(--ink); font-weight: 700; }   /* "addressed" is now weight, not teal */
+table.matrix td.off { color: #6A655C; }
+
+/* --- the register: numbered entries on rules, not cards ---------------- */
+.briefs { display: grid; gap: 0; }
+.brief {
+  background: transparent; border: 0; border-top: 1px solid var(--rule-mid);
+  border-radius: 0; padding: 22px 0 24px; scroll-margin-top: 16px;
+}
+.brief:first-child { border-top: 0; }
+.brief:target {
+  /* there is no card to ring any more, so :target bleeds instead */
+  background: var(--paper-sunk);
+  box-shadow: -14px 0 0 var(--paper-sunk), 14px 0 0 var(--paper-sunk);
+}
+.brief--unread { border-left: 0; padding-left: 14px; box-shadow: inset 4px 0 0 var(--ochre); }
+.brief-head { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: start; }
+.badge {
+  font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  padding: 4px 7px; border-radius: 0; background: var(--paper-sunk); color: var(--ink-key); white-space: nowrap;
+}
+/* Badge hue encodes authority class, so it is information and stays. */
+.badge--aba   { background: #E1EBE7; color: #14513E; }
+.badge--bar   { background: #EFE7D6; color: #6A4A0F; }
+.badge--court { background: #E6E1EE; color: #453569; }
+.badge--case  { background: #F3E1DB; color: #8C2C17; }
+.brief-headings h3 { font-family: 'Manuale', Georgia, serif; font-size: 23px; font-weight: 700; line-height: 1.2; }
+.brief-headings h3 a { text-decoration: none; }
+.brief-headings h3 a:hover { text-decoration: underline; }
+.cite { font-size: 11.5px; font-weight: 500; color: var(--ink-key); margin-top: 6px; line-height: 1.5; letter-spacing: .01em; }
+.rail { font-size: 12px; color: var(--ink-soft); margin-top: 4px; }
+.permalink { font-size: 15px; text-decoration: none; color: #6A655C; padding: 2px 6px; border-radius: 0; }
+.permalink:hover { color: var(--ink); background: var(--paper-sunk); }
+.lede { font-family: 'Manuale', Georgia, serif; font-size: 18px; line-height: 1.52; margin: 14px 0 4px; max-width: 66ch; }
+.fields { display: grid; gap: 12px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--rule-soft); }
+.field h4 { font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-key); margin-bottom: 4px; }
+.field p { font-size: 15px; max-width: 72ch; line-height: 1.6; }
+.duties { margin-top: 14px; }
+.duties h4 { font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-key); margin-bottom: 6px; }
+.duties ul { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.duties li { font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 0; background: transparent; border: 1px solid var(--rule-mid); color: var(--ink-key); }
+.brief-foot { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--rule-soft); font-size: 12px; color: var(--ink-soft); }
+.brief-foot p { margin-bottom: 4px; max-width: 76ch; line-height: 1.55; }
+.doc-link { display: inline-block; margin-top: 6px; font-size: 12px; font-weight: 700; letter-spacing: .03em; }
+
+.candidates { display: grid; gap: 0; }
+.candidate {
+  background: transparent; border: 0; border-top: 1px solid var(--rule-soft);
+  border-radius: 0; padding: 14px 0 14px 14px; box-shadow: inset 4px 0 0 var(--ochre);
+}
+.candidate h3 { font-family: 'Manuale', Georgia, serif; font-size: 16px; font-weight: 700; line-height: 1.35; }
+.candidate .rail { margin-top: 4px; }
+.empty { background: var(--paper-sunk); border: 0; border-radius: 0; padding: 20px; font-size: 14px; color: var(--ink-soft); }
+
+.footer {
+  margin-top: 52px; padding-top: 20px; border-top: 3px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 22px; flex-wrap: wrap;
+  font-size: 12px; color: var(--ink-soft);
+}
+.footer-name { font-family: 'Manuale', Georgia, serif; font-weight: 700; font-size: 17px; color: var(--ink); margin-bottom: 5px; }
+.footer-creds { line-height: 1.75; }
+.footer-contact { line-height: 1.9; text-align: right; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+@media (forced-colors: active) {
+  .brief, .candidate, .stats-row, .stat-card, .health-banner, .controls,
+  table.matrix th, table.matrix td, .matrix-wrap, h2.rubric, .header, .footer { border-color: CanvasText; }
+  .badge, .duties li { border: 1px solid CanvasText; background: Canvas; color: CanvasText; }
+  .brief--unread, .candidate { box-shadow: none; border-left: 4px solid CanvasText; }
+  .brief:target { box-shadow: none; outline: 2px solid Highlight; }
+  .pulse, .brand-dot { forced-color-adjust: none; background: CanvasText; }
+  .controls button { background: ButtonFace; color: ButtonText; border-color: CanvasText; }
+}
+@media print {
+  body { background: #fff; color: #000; font-size: 11pt; }
+  .page { max-width: none; padding: 0; }
+  .controls, .status-pill, .skip-link, .permalink { display: none; }
+  .brief, .candidate { break-inside: avoid; }
+  .matrix-wrap { overflow: visible; }
+  .doc-link[href]::after, .brief-headings h3 a[href]::after { content: ' (' attr(href) ')'; font-size: 8pt; color: #444; word-break: break-all; }
+  h2.rubric { break-after: avoid; }
+}
+@media (max-width: 640px) {
+  .page { padding: 30px 18px 48px; }
+  .brief-head { grid-template-columns: auto 1fr; }
+  .permalink { display: none; }
+  .footer-contact { text-align: left; }
+  table.matrix { min-width: 640px; }
+  .stat-card { border-left: 0; padding-left: 0; }
+}
 </style>
 </head>
 <body>
