@@ -108,7 +108,7 @@ export default function handler(req, res) {
 /* Legal AI Guidance Monitor — a looseleaf citator, not a dashboard.
 
    This build declared Cormorant Garamond, Syne, Manrope and DM Mono on
-   #F6F3EC, and so did aloha-ai-governance and set-for-life. One stylesheet,
+   F6F3EC, and so did aloha-ai-governance and set-for-life. One stylesheet,
    three unrelated builds.
 
    What this actually is: eight primary authorities on lawyers' use of AI, each
