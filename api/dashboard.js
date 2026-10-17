@@ -485,7 +485,7 @@ table.matrix td.off { color: #6A655C; }
       <a href="tel:+18606814438">860-681-4438</a><br>
       <a href="https://aloha-ai-consulting.vercel.app/" rel="noopener">aloha-ai-consulting.vercel.app</a>
     </div>
-  </footer>
+  <p><a href="https://github.com/rn-collins/aloha-legal-ai-monitor" target="_blank" rel="noopener noreferrer">View source on GitHub ↗</a></p></footer>
 </div>
 <script>
 (function () {
